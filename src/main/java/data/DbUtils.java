@@ -8,42 +8,36 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbUtils {
+    // TODO: поменять в билд градл test на systemProperty 'db.url', System.getProperty('db.url')
+    // TODO: вставить в connection "System.getProperty(\"db.url\")"
 
 
-    public static int getPaymentAmount() {
+    public static String getPaymentStatus() {
         QueryRunner runner = new QueryRunner();
-        System.getProperty("db.url");
 
-        String amountSQL = "SELECT amount FROM payment_entity;";
+        String amountSQL = "SELECT status FROM payment_entity;";
 
-        int amount = 0;
+        String status = null;
         try (
                 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass")
         ) {
-            amount = runner.query(conn, amountSQL, new ScalarHandler<>());
+            status = runner.query(conn, amountSQL, new ScalarHandler<>());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return amount;
+        return status;
     }
 
 
-
-
-
-
-
-    public void clean() {
+    public void afterPaymentClean() {
         QueryRunner runner = new QueryRunner();
 
-        var creditSQL = "DELETE FROM credit_request_entity WHERE TRUE;";
         var paymentSQL = "DELETE FROM payment_entity WHERE TRUE;";
         var orderSQL = "DELETE FROM order_entity WHERE TRUE;";
 
         try (
                 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass")
         ) {
-            runner.update(conn, creditSQL);
             runner.update(conn, paymentSQL);
             runner.update(conn, orderSQL);
         } catch (SQLException e) {
