@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.9.6'
     id "io.freefair.lombok" version "5.3.0"
 }
 
@@ -8,6 +9,13 @@ version '1.0-SNAPSHOT'
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
+
+allure {
+    version = '2.16.1'
+    useJUnit5 {
+        version = '2.16.1'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -18,9 +26,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.22'
     implementation 'commons-dbutils:commons-dbutils:1.7'
     implementation 'com.codeborne:selenide:5.19.0'
+    testImplementation 'io.qameta.allure:allure-selenide:2.16.1'
 }
 
 test {
     useJUnitPlatform()
-    systemProperty 'db.url', System.getProperty('db.url', "jdbc:mysql://localhost:3306/app")
-}
+    systemProperty 'db.url', System.getProperty('db.url')}

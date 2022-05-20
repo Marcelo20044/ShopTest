@@ -1,24 +1,26 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import data.DataGenerator;
 import data.DbUtils;
-import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import page.PaymentByCardPage;
+import page.PurchaseOnCreditPage;
 
 import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PaymentByCardTest {
+public class PurchaseOnCreditTest {
+
     DbUtils cleaner = new DbUtils();
-    PaymentByCardPage pay = new PaymentByCardPage();
+    PurchaseOnCreditPage pay = new PurchaseOnCreditPage();
 
     private SelenideElement cardNumber = $("[placeholder=\"0000 0000 0000 0000\"]");
     private SelenideElement month = $("[placeholder=\"08\"]");
@@ -33,6 +35,7 @@ public class PaymentByCardTest {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
+
     @AfterAll
     static void dataDelete() {
         DbUtils cleaner = new DbUtils();
@@ -40,14 +43,14 @@ public class PaymentByCardTest {
     }
 
     @Test
-    public void successPayment1() throws InterruptedException {
+    public void successPayment() throws InterruptedException {
         cleaner.clean();
         open("http://localhost:8080/");
         val cardInfo = DataGenerator.getCardInfo();
         pay.validDataEntry(cardInfo);
         TimeUnit.SECONDS.sleep(5);
         String expected = "APPROVED";
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -59,7 +62,7 @@ public class PaymentByCardTest {
         pay.validDataEntryWithCVC000(cardInfo);
         TimeUnit.SECONDS.sleep(5);
         String expected = "APPROVED";
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -71,7 +74,7 @@ public class PaymentByCardTest {
         pay.validDataEntryWithDeclinedCard(cardInfo);
         TimeUnit.SECONDS.sleep(5);
         String expected = "DECLINED";
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -86,7 +89,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -102,7 +105,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Истёк срок действия карты"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -118,7 +121,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверно указан срок действия карты"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -133,7 +136,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверно указан срок действия карты"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -148,7 +151,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -163,7 +166,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -178,7 +181,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -193,7 +196,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -208,7 +211,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -223,7 +226,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Поле обязательно для заполнения"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -238,7 +241,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -253,7 +256,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -268,7 +271,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -283,7 +286,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -298,7 +301,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -313,7 +316,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -328,7 +331,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверно указан срок действия карты"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -343,7 +346,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Истёк срок действия карты"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -358,7 +361,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -373,7 +376,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -388,7 +391,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
 
@@ -403,9 +406,7 @@ public class PaymentByCardTest {
         errorMessage.shouldHave(Condition.text("Неверный формат"));
         TimeUnit.SECONDS.sleep(5);
         String expected = null;
-        String actual = DbUtils.getPaymentStatus();
+        String actual = DbUtils.getCreditStatus();
         assertEquals(expected, actual);
     }
-
-
 }

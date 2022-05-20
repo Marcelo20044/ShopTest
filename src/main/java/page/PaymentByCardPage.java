@@ -45,6 +45,18 @@ public class PaymentByCardPage {
         successNotification.shouldHave(Condition.text("Операция одобрена Банком."));
     }
 
+    public void validDataEntryWithDeclinedCard(DataGenerator.CardInfo info) {
+        Configuration.timeout = 15000;
+        purchaseButton.click();
+        cardNumber.val(info.getNumber());
+        month.val(info.getMonth());
+        year.val(info.getYear());
+        owner.val(info.getOwner());
+        cvc.val(info.getCvc());
+        continueButton.click();
+        successNotification.shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."));
+    }
+
     public void invalidDataEntryWithAnotherCardNumber(DataGenerator.CardInfo info) {
         purchaseButton.click();
         month.val(info.getMonth());
