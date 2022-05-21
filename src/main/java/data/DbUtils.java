@@ -19,7 +19,7 @@ public class DbUtils {
 
         String status = null;
         try (
-                Connection conn = DriverManager.getConnection( "System.getProperty(\"db.url\")", "app", "pass")
+                Connection conn = DriverManager.getConnection(System.getProperty("db.url"), "app", "pass")
         ) {
             status = runner.query(conn, paymentStatusSQL, new ScalarHandler<>());
         } catch (SQLException e) {
@@ -35,7 +35,7 @@ public class DbUtils {
 
         String status = null;
         try (
-                Connection conn = DriverManager.getConnection( "System.getProperty(\"db.url\")", "app", "pass")
+                Connection conn = DriverManager.getConnection(System.getProperty("db.url"), "app", "pass")
         ) {
             status = runner.query(conn, creditStatusSQL, new ScalarHandler<>());
         } catch (SQLException e) {
@@ -54,7 +54,7 @@ public class DbUtils {
         var orderSQL = "DELETE FROM order_entity WHERE TRUE;";
 
         try (
-                Connection conn = DriverManager.getConnection( "System.getProperty(\"db.url\")", "app", "pass")
+                Connection conn = DriverManager.getConnection(System.getProperty("db.url"), "app", "pass")
         ) {
             runner.update(conn, creditSQL);
             runner.update(conn, paymentSQL);
