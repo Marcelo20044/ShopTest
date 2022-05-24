@@ -8,8 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbUtils {
-    // TODO: поменять в билд градл test на systemProperty 'db.url', System.getProperty('db.url')
-    // TODO: вставить в connection "System.getProperty(\"db.url\")"
 
 
     public static String getPaymentStatus() {

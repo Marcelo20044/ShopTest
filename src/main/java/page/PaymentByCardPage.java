@@ -11,7 +11,6 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentByCardPage {
 
-    private SelenideElement purchaseButton = $(byText("Купить"));
     private SelenideElement cardNumber = $("[placeholder=\"0000 0000 0000 0000\"]");
     private SelenideElement month = $("[placeholder=\"08\"]");
     private SelenideElement year = $("[placeholder=\"22\"]");
@@ -19,89 +18,41 @@ public class PaymentByCardPage {
     private SelenideElement cvc = $("[placeholder=\"999\"]");
     private SelenideElement continueButton = $(byText("Продолжить"));
     private SelenideElement successNotification = $("[class=\"notification__content\"]");
+    private SelenideElement errorMessage = $("[class=\"input__sub\"]");
 
 
-    public void validDataEntry(DataGenerator.CardInfo info) {
+    public void dataEntryForPayment(DataGenerator.CardInfo info) {
         Configuration.timeout = 15000;
-        purchaseButton.click();
         cardNumber.val(info.getNumber());
         month.val(info.getMonth());
         year.val(info.getYear());
         owner.val(info.getOwner());
         cvc.val(info.getCvc());
         continueButton.click();
+    }
+
+    public void successNotificationCheck() {
         successNotification.shouldHave(Condition.text("Операция одобрена Банком."));
     }
 
-    public void validDataEntryWithCVC000(DataGenerator.CardInfo info) {
-        Configuration.timeout = 15000;
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        month.val(info.getMonth());
-        year.val(info.getYear());
-        owner.val(info.getOwner());
-        cvc.val("000");
-        continueButton.click();
-        successNotification.shouldHave(Condition.text("Операция одобрена Банком."));
-    }
-
-    public void validDataEntryWithDeclinedCard(DataGenerator.CardInfo info) {
-        Configuration.timeout = 15000;
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        month.val(info.getMonth());
-        year.val(info.getYear());
-        owner.val(info.getOwner());
-        cvc.val(info.getCvc());
-        continueButton.click();
+    public void declinedNotificationCheck() {
         successNotification.shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."));
     }
 
-    public void invalidDataEntryWithAnotherCardNumber(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        month.val(info.getMonth());
-        year.val(info.getYear());
-        owner.val(info.getOwner());
-        cvc.val(info.getCvc());
+    public void invalidFormatNotificationCheck() {
+        errorMessage.shouldHave(Condition.text("Неверный формат"));
     }
 
-    public void invalidDataEntryWithOtherMonthAndYear(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        owner.val(info.getOwner());
-        cvc.val(info.getCvc());
+    public void expiredCardNotificationCheck() {
+        errorMessage.shouldHave(Condition.text("Истёк срок действия карты"));
     }
 
-    public void invalidDataEntryWithAnotherMonth(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        year.val(info.getYear());
-        owner.val(info.getOwner());
-        cvc.val(info.getCvc());
+    public void invalidExpirationCardNotificationCheck() {
+        errorMessage.shouldHave(Condition.text("Неверно указан срок действия карты"));
     }
 
-    public void invalidDataEntryWithAnotherYear(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        month.val(info.getMonth());
-        owner.val(info.getOwner());
-        cvc.val(info.getCvc());
-    }
-
-    public void invalidDataEntryWithAnotherOwnerName(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        month.val(info.getMonth());
-        year.val(info.getYear());
-        cvc.val(info.getCvc());
-    }
-
-    public void invalidDataEntryWithAnotherCVC(DataGenerator.CardInfo info) {
-        purchaseButton.click();
-        cardNumber.val(info.getNumber());
-        month.val(info.getMonth());
-        year.val(info.getYear());
-        owner.val(info.getOwner());
+    public void fieldIsRequiredToFillNotificationCheck() {
+        errorMessage.shouldHave(Condition.text("Поле обязательно для заполнения"));
     }
 
 
