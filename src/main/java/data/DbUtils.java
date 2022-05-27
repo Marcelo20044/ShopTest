@@ -44,7 +44,7 @@ public class DbUtils {
 
 
 
-    public void clean() {
+    public static void clean() {
         QueryRunner runner = new QueryRunner();
 
         var creditSQL = "DELETE FROM credit_request_entity WHERE TRUE;";

@@ -24,6 +24,7 @@ repositories {
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.8.2'
     implementation 'mysql:mysql-connector-java:8.0.22'
+    implementation 'org.postgresql:postgresql:42.3.6'
     implementation 'commons-dbutils:commons-dbutils:1.7'
     implementation 'com.codeborne:selenide:5.19.0'
     testImplementation 'io.qameta.allure:allure-selenide:2.16.1'
