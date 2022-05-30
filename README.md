@@ -9,6 +9,6 @@
 * Запустить тесты командой ./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"
 
 ### Ссылки:
-* План: https://github.com/Marcelo20044/ShopTest/blob/master/Plan.md
-* Отчёт по итогам тестирования: https://github.com/Marcelo20044/ShopTest/blob/master/Report.md
-* Отчёт по итогам автоматизации: https://github.com/Marcelo20044/ShopTest/blob/master/Summary.md
+* План:[ https://github.com/Marcelo20044/ShopTest/blob/master/Plan.md](https://github.com/Marcelo20044/ShopTest/blob/master/docs/Plan.md)
+* Отчёт по итогам тестирования: [https://github.com/Marcelo20044/ShopTest/blob/master/Report.md](https://github.com/Marcelo20044/ShopTest/blob/master/docs/Report.md)
+* Отчёт по итогам автоматизации: [https://github.com/Marcelo20044/ShopTest/blob/master/Summary.md](https://github.com/Marcelo20044/ShopTest/blob/master/docs/Summary.md)
